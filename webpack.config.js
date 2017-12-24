@@ -35,7 +35,7 @@ module.exports={
         new htmlwp({                                //实现热刷新
             title:'首页',
             filename:'index.html',
-            template:"html/webpack.html"
+            template:"./index1.html"
         })
     ]
 }

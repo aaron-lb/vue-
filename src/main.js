@@ -1,29 +1,57 @@
 import Vue from 'vue';//导入vue核心包
-import App from './App.vue';//导入App.vue的vue对象
 import vueRouter from 'vue-router' //导入vue—router包
 import mintui from 'mint-ui'  //导入mint-ui
+import vueResource from 'vue-resource'     //导入ajax请求包
+import moment from 'moment'         //导入moment日期格式化插件
+
+
+
+import App from './App.vue';//导入App.vue的vue对象
+import shopcar from './components/shopcar/shopcar.vue'
+import home from './components/home.vue'
+import newslist from './components/news/newslist.vue'
+
+
+
 import 'mint-ui/lib/style.min.css'       //导入mint-ui的css样式，因为没有返回对象，所以这样导入
 import '../statics/mui/css/mui.css'       //导入mui的css样式，因为mui的html这个项目是直接复制粘贴进来的，所以就不用引入mui了
-import login from './components/login.vue';  //导入路由规则对应的组件对象
-import register from './components/register.vue';
+import '../statics/css/site.css'
+
 
 Vue.use(vueRouter) //将vueRouter对象绑定到Vue对象上
 Vue.use(mintui)    //Vue对象使用一下mintui
+Vue.use('vueResource')//将vue-resource对象绑定到vue
+
 
 
 
 var router1=new vueRouter({    //定义路由规则
+    linkActiveClass:'mui-active',
     routes:[
-        {
-            path:'/login',
-            component:login
-        },
-        {
-            path:'/register',
-            component:register
-        }
+        {path:'/home',component:home},
+        {path:'/shopcar',component:shopcar},
+        {path:'/news/newslist',component:newslist}
     ]
 })
+
+
+//定义全局过滤器，格式化日期
+Vue.filter('datefmt',function(data,str=''){
+    // return moment(data).format(str)     这句话是使用引入的moment插件格式化时间
+    var dt = new Date(data)     //这是自己写的格式化时间的过滤器，没用插件
+    var y = dt.getFullYear()
+    var m = (dt.getMonth()+1).toString().padStart(2,0)
+    var d = dt.getDate().toString().padStart(2,0)
+    var hh = dt.getHours().toString().padStart(2,0)
+    var mm = dt.getMinutes().toString().padStart(2,0)
+    var ss = dt.getSeconds().toString().padStart(2,0)
+    if(str.toLowerCase() === 'yyyy-mm-dd hh:mm:ss'){
+        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+    }else{
+        return `${y}-${m}-${d}`
+    }
+})
+
 
 new Vue({            //利用vue对象进行解析渲染
     el:'#app',
