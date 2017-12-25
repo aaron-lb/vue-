@@ -10,6 +10,7 @@ import App from './App.vue';//导入App.vue的vue对象
 import shopcar from './components/shopcar/shopcar.vue'
 import home from './components/home.vue'
 import newslist from './components/news/newslist.vue'
+import newsinfo from './components/news/newsinfo.vue'
 
 
 
@@ -30,7 +31,8 @@ var router1=new vueRouter({    //定义路由规则
     routes:[
         {path:'/home',component:home},
         {path:'/shopcar',component:shopcar},
-        {path:'/news/newslist',component:newslist}
+        {path:'/news/newslist',component:newslist},
+        {path:'/news/newsinfo/:id',component:newsinfo}
     ]
 })
 
