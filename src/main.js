@@ -1,16 +1,24 @@
-import Vue from 'vue';//导入vue核心包
+import Vue from 'vue'//导入vue核心包
 import vueRouter from 'vue-router' //导入vue—router包
 import mintui from 'mint-ui'  //导入mint-ui
 import vueResource from 'vue-resource'     //导入ajax请求包
 import moment from 'moment'         //导入moment日期格式化插件
+import VuePreview from 'vue-preview'      //图片预览插件
 
 
 
-import App from './App.vue';//导入App.vue的vue对象
+
+import App from './App.vue'//导入App.vue的vue对象
 import shopcar from './components/shopcar/shopcar.vue'
 import home from './components/home.vue'
 import newslist from './components/news/newslist.vue'
 import newsinfo from './components/news/newsinfo.vue'
+import photolist from './components/photo/photolist.vue'
+import photoinfo from './components/photo/photoinfo.vue'
+import goodslist from './components/goods/goodslist.vue'
+import goodsinfo from './components/goods/goodsinfo.vue'
+import goodsdesc from './components/goods/goodsdesc.vue'
+import goodscomment from './components/goods/goodscomment.vue'
 
 
 
@@ -21,18 +29,26 @@ import '../statics/css/site.css'
 
 Vue.use(vueRouter) //将vueRouter对象绑定到Vue对象上
 Vue.use(mintui)    //Vue对象使用一下mintui
-Vue.use('vueResource')//将vue-resource对象绑定到vue
+Vue.use(vueResource)//将vue-resource对象绑定到vue
+Vue.use(VuePreview) //图片预览插件
 
 
 
 
 var router1=new vueRouter({    //定义路由规则
-    linkActiveClass:'mui-active',
+    linkActiveClass:'mui-active',//改变路由激活时的class名称
     routes:[
+        {path:'/',component:home},
         {path:'/home',component:home},
         {path:'/shopcar',component:shopcar},
         {path:'/news/newslist',component:newslist},
-        {path:'/news/newsinfo/:id',component:newsinfo}
+        {path:'/news/newsinfo/:id',component:newsinfo},
+        {path:'/photo/photolist',component:photolist},
+        {path:'/photo/photoinfo/:id',component:photoinfo},
+        {path:'/goods/goodslist',component:goodslist},
+        {path:'/goods/goodsinfo/:id',component:goodsinfo},
+        {path:'/goods/goodsdesc/:id',component:goodsdesc},
+        {path:'/goods/goodscomment/:id',component:goodscomment},
     ]
 })
 

@@ -1,48 +1,51 @@
 <template>
   
     <div id='tmpl'>
-        <div class="title">
+        <div class="title">      <!--实现新闻信息-->
             <h4 v-text='info.title'></h4>
-            <p>{{info.add_time | datefmt()}} {{info.click}}次浏览</p>
+            <p>{{info.year }}年 </p>
         </div>
-        <div id="content" v-html='info.content'></div>
+        <div id="content" v-html='info.summary'></div>
+
+<!-- 实现评论组件的集成 -->
+        <comment :id='id'></comment>
+
+
     </div>
 
 </template>
 
 <script>
-    
+    import common from '../../kits/common.js'
+    import comment from '../subcom/comment.vue'         //导入评论组件
     export default{
+        components:{                      //注册评论组件为当前组件的子组件
+            comment:comment
+        },
         data(){
             return {
                 id:'',
-                info:{
-                    "id": 13,
-                   "title": "1季度多家房企利润跌幅超50% 去库存促销战打响",
-                   "click": 2,
-                   "add_time": "2015-04-16T03:50:28.000Z",
-                   "content":"sdfsdf会尽快了鸡蛋大明白哒"
-                }
+                info:{}
             }
         },
         created(){
-            this.id=this.$route.params.id;
-            // getInfo()
+            this.id=this.$route.params.id;//获取到url里带的参数id
+            this.getInfo()
         },
         methods:{
-            // getInfo(){
-            //     var url = 'http://webhm.top:8899/api/getnew/'+this.id;
-            //     this.$http.get(url).then(function(res){
-            //         var body = res.body;
-            //         if(body.status != 0){
-            //             alert(body.message);
-            //             return 
-            //         }
-            //         else{
-            //             this.info = body.message[0]
-            //         }
-            //     })
-            // }
+            getInfo(){
+                var url = common.apidomain+'/v2/movie/subject/'+this.id;
+                this.$http.jsonp(url).then(function(res){
+                    var body = res.body;
+                    if(res.status != 200){
+                        alert('请求失败');
+                        return 
+                    }
+                    else{
+                        this.info = body
+                    }
+                })
+            }
         }
     }
 

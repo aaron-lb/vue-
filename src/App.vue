@@ -22,7 +22,7 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link class="mui-tab-item" to="/shopcar">
-				<span class="mui-icon mui-icon-contact"><span class="mui-badge">0</span></span>
+				<span class="mui-icon mui-icon-contact"><span class="mui-badge" id="badge">0</span></span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link class="mui-tab-item" to="/newsinfo">
@@ -39,6 +39,12 @@
 
 <script>
 import { Toast } from "mint-ui"; //导入mint-ui里的js组件
+import {vm} from './kits/vm.js'
+
+vm.$on('COUNTSTR',function(count){
+	var badgeobj = document.querySelector('#badge');
+	badgeobj.innerText = parseInt(badgeobj.innerText) + count;
+})
 
 //负责导出.vue这个组件对象（它本质上是个Vue对象，所有Vue中该定义的元素都可以使用）
 export default {

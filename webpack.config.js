@@ -1,5 +1,6 @@
 var htmlwp=require('html-webpack-plugin');       //为了实现热刷新，这里需要引入
 
+
 module.exports={
     entry:'./src/main.js',
     output:{
@@ -22,8 +23,12 @@ module.exports={
             loader:'vue-loader',
         },
         {
-            test:/\.(png|jpg|gif|ttf)/,                     //这边的配置是打包url资源
+            test:/\.(png|jpg|gif|ttf|svg)/,                     //这边的配置是打包url资源
             loader:'url-loader?|limit=40000',
+        },
+        {
+            test: /vue-preview.src.*?js$/,
+            loader: 'babel-loader'                             //图片预览插件
         }
               ]
     },
@@ -36,6 +41,6 @@ module.exports={
             title:'首页',
             filename:'index.html',
             template:"./index1.html"
-        })
+        }),
     ]
 }
