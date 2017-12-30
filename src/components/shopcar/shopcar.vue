@@ -9,7 +9,8 @@
                 <h4 v-text='item.title  '></h4>
                 <ul>
                     <li>￥{{item.sell_price}}</li>
-                    <li>购买数量组件</li>
+                    <li><carInputNumber :initCount='item.cou' :goodsid='item.id'
+                        v-on:cardataobj='getiInputNumber'></carInputNumber></li>
                     <li><a href="#">删除</a></li>
                 </ul>
             </div>
@@ -22,29 +23,14 @@
 
 <script>
 import {getgoodsObject} from '../../kits/localsg.js'
+import carInputNumber from '../subcom/carInputNumber.vue'
 
 export default {
+  components:{carInputNumber:carInputNumber},
   data() {
     return {
       value: [],
-      datalist: [
-        // {
-        //   cou: 1,
-        //   id: 87,
-        //   title: "华为（HUAWEI）荣耀6Plus 16G双4G版",
-        //   sell_price: 2195,
-        //   thumb_path:
-        //     "http://vue.studyit.io/upload/201504/20/thumb_201504200046594439.jpg"
-        // },
-        // {
-        //   cou: 1,
-        //   id: 88,
-        //   title: "苹果Apple iPhone 6 Plus 16G 4G手机（联通三网版）",
-        //   sell_price: 5780,
-        //   thumb_path:
-        //     "http://vue.studyit.io/upload/201504/20/thumb_201504200059022920.jpg"
-        // }
-      ]
+      datalist: []
     };
   },
   created(){
@@ -60,9 +46,26 @@ export default {
               console.log('请求失败')
           }
           else{
+              res.body.message.forEach((item,index)=>{
+                  item.cou = obj[item.id]
+              })
               this.datalist= res.body.message
           }
       })
+  },
+  methods:{
+      getiInputNumber(resObj){
+          for(var i=0;i<this.datalist.length;i++){
+              if(this.datalist[i].id == resObj.goodsid){
+                  if(resObj.type=='add'){
+                      this.datalist[i].cou++
+                  }else{
+                      this.datalist[i].cou--
+                  }
+                  break
+              }
+          }
+      }
   }
 };
 </script>
@@ -83,9 +86,11 @@ export default {
     color:#0094ff;
     font-size:14px;
     margin-top:15px;
+    margin-left: 8px;
 }
 .row ul{
-    padding:10px;
+    /* padding:10px; */
+    padding-left:5px;
 }
 .row li{
     list-style:none;
@@ -93,9 +98,9 @@ export default {
 }
 .row li:first-child{
     color:red;
-    margin-right:10px;
+    margin-right:5px;
 }
 .row li:last-child{
-    margin-left:10px;
+    margin-left:5px;
 }
 </style>
