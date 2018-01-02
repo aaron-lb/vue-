@@ -33,9 +33,16 @@ export function getItem(){
 }
 
 // 4.0 移除数据
-export function remoteItem(){
-
+export function remoteItem(goodsid){
+    var arr = getItem()
+    for(var i = arr.length-1;i >= 0; i--){
+        if(arr[i].goodsid==goodsid){
+            arr.splice(i,1)
+        }
+    }
+    localStorage.setItem(KEY,JSON.stringify(arr))
 }
+
 
 
 // 将arr数组中的goodid相同的多个对象合并成同一个对象

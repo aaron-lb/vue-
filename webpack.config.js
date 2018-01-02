@@ -1,11 +1,15 @@
 var htmlwp=require('html-webpack-plugin');       //为了实现热刷新，这里需要引入
+var path = require('path')
+var webpack = require('webpack')    //用于访问内置插件
 
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')//压缩js代码
 
 module.exports={
-    entry:'./src/main.js',
+    entry:path.join(__dirname,'src/main.js'),
+        
     output:{
-        path:__dirname+"/dist",
-        filename:"build1.js"
+        path:path.join(__dirname,"dist"),
+        filename:"build.js"
     },
     module:{
         loaders:[
@@ -29,7 +33,8 @@ module.exports={
         {
             test: /vue-preview.src.*?js$/,
             loader: 'babel-loader'                             //图片预览插件
-        }
+        },
+        { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }, // 配置 Babel 来转换高级的ES语法
               ]
     },
     // babel:{
@@ -42,5 +47,9 @@ module.exports={
             filename:'index.html',
             template:"./index1.html"
         }),
+        new UglifyJSPlugin({
+            test: /\.js($|\?)/i,
+            // include: /\//
+        })
     ]
 }

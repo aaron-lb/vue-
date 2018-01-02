@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import {carvm} from '../../kits/carvm.js'
 	export default{
         props:['initCount','goodsid'],
 		data(){
@@ -22,13 +23,17 @@
 			substrict(){
 				this.count--;
 //				确保最小值为1
+				
+				this.sendmessage('substrict');
 				if(this.count <1){
 					this.count = 1;
+					return
 				}
-				this.sendmessage('substrict');
+				carvm.$emit('carvm',-1)
 			},
 			add(){
 				this.count++;
+				carvm.$emit('carvm',1)
 				this.sendmessage('add');
 			},
 			sendmessage(type){
@@ -36,27 +41,30 @@
                 this.resObj.goodsid = this.goodsid;
                 var arr =  JSON.parse(localStorage.getItem('goodsdata') || '[]');
                 if(type=='add'){
+					
                     arr.push({goodsid:this.goodsid,count:1})
-                }else {
-                    for(var i=0;i<arr.length;i++){
+				}
+				else if(type=='substrict' && this.initCount >1){
+						for(var i=0;i<arr.length;i++){
                         if(arr[i].goodsid == this.goodsid){
                             if(arr[i].count >1){
                                 arr[i].count--;
                                 break
                             }
-                            else if(arr[i].count=1 && this.count>1){
+                            else {
                                 arr.splice(i,1);
                                 break
                             }
-                            else{
-                                arr[i].count=1
-                            }
                         }
                     }
-                }
+					
+                }else{
+					return
+				}
                 localStorage.setItem('goodsdata',JSON.stringify(arr))
 
 				this.$emit('cardataobj',this.resObj)
+				
 			}
 		}
 	}

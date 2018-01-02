@@ -88,8 +88,8 @@ export default {
     },
     enter(el,done){
       el.offsetWidth;
-      el.style.transform='translate(80px,366px)';
-      el.style.transition='all 1s ease';
+      el.style.transform='translate(80px,600px)';
+      el.style.transition='all .8s ease';
       done()
     },
     afterEnter(el){
